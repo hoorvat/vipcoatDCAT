@@ -100,3 +100,13 @@ vipcoat:resource/baseResource-v2
     dcat:isVersionOf vipcoat:resource/resourceName;  # this connects it to the base resource
     dcat:previousVersion vipcoat:resource/baseResource-v1;  # this points to the previous version
 ```
+
+## Using checksum when creating a new version
+
+We can utilize checksum of a resource's distribution to check if a file that is being uploaded a new file. If the checksum of the new file is the same as the one in the graph we should not allow a new version to be created.
+
+To take this to a new level we can always before creating check if a distribution exists with the same checksum. No need to clutter the database with same files.
+
+## Traversing the graph with versions
+
+From every resource we can check what is its dcat:isVersionOf pointing to. The base resource in subject will return nothing. All the version resources will point to the base resource. With SELECT DISTINCT in sparql query this will return a single, base, resource. From the base we can easily fetch the latest version for the query search, or all versions for the resource page where versioning is shown.
